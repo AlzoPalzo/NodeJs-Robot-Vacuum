@@ -1,8 +1,15 @@
-console.log(process.argv)
-
 const fs = require('fs')
 
-fs.readFile('./textFiles/example1.txt', 'utf8', function(err, data){
+let input;
+state={
+    gridLength: 0,
+    gridHeight: 0,
+    vacPosX: 0,
+    vacPosY: 0,
+    dirt: []
+}
+
+fs.readFileSync('./textFiles/example1.txt', 'utf8', function(err, data){
     if (err) throw err;
-    console.log(data)
+    input = data;
 })

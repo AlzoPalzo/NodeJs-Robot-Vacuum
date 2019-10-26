@@ -7,7 +7,7 @@ const state={
     vacPosX: 0,
     vacPosY: 0,
     dirt: [],
-    dirtCount: 0,
+    dirtRemoved: 0,
 }
 
 function readFile(){
@@ -19,6 +19,7 @@ function readFile(){
 }
 
 function initialState(){
+    state.dirtRemoved = 0
     for (let i = 0; i < input.length - 1; i++) {
         
         const xyVals = input[i].split(' ').map(val => {
@@ -71,12 +72,15 @@ function moveVac() {
 }
 
 function dirtCheck(){
-    
+    const dirtAmount = state.dirt.length
+    state.dirt = state.dirt.filter(dirt => { 
+        return dirt[0] !== state.vacPosX || dirt[1] !== state.vacPosY
+    })
+    if (dirtAmount !== state.dirt.length)state.dirtRemoved += 1
 }
 
 readFile()
 initialState()
 moveVac()
 
-console.log(input)
-console.log(state)
+console.log(`${state.vacPosX} ${state.vacPosY} \n${state.dirtRemoved}`)

@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 let input;
-state={
+const state={
     gridLength: 0,
     gridHeight: 0,
     vacPosX: 0,
@@ -20,8 +20,11 @@ function readFile(){
 
 function initialState(){
     for (let i = 0; i < input.length - 1; i++) {
-        console.log(i)
-        const xyVals = input[i].split(' ')
+        
+        const xyVals = input[i].split(' ').map(val => {
+            return parseInt(val, 10)
+        });
+
         if (i === 0) {
             state.gridLength = xyVals[0]
             state.gridHeight = xyVals[1]
@@ -35,8 +38,45 @@ function initialState(){
         }
     }
 }
+
+function moveVac() {
+    const directions = input[input.length - 1].split('')
+    directions.forEach(direction => {
+        switch (direction.toUpperCase()) {
+            case 'N':
+                if (state.vacPosY < state.gridHeight){
+                    state.vacPosY += 1;
+                    dirtCheck()
+                }
+                break;
+            case 'E':
+                if (state.vacPosX < state.gridLength) {
+                    state.vacPosX += 1;
+                    dirtCheck()
+                }
+                break;
+            case 'S': 
+                if (state.vacPosY !== 0) {
+                    state.vacPosY -= 1;
+                    dirtCheck()
+                }
+                break;
+            case 'W':
+                if (state.vacPosX !== 0) {
+                    state.vacPosX -= 1;
+                    dirtCheck()
+                }
+        }
+    });
+}
+
+function dirtCheck(){
+    
+}
+
 readFile()
 initialState()
+moveVac()
 
 console.log(input)
 console.log(state)

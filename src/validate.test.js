@@ -17,3 +17,7 @@ test('expects valid file type to return true', () => {
 test('expects invalid file type to return false', () => {
     expect(validate.typeCheck("invalidFileType.csv")).toBe(false)
 })
+
+test('expects valid path to return true', () => {
+    expect(validate.pathCheck("./textFiles/example1.txt")).toBe(true)
+})

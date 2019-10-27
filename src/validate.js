@@ -26,7 +26,14 @@ exports.typeCheck = (arg) => {
 }
 
 exports.pathCheck = (path) => {
-    console.log('5')
+    try {
+        if (fs.existsSync(path)){
+            return true
+        }
+        else return false
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 exports.formatCheck = () => {

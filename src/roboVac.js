@@ -1,5 +1,7 @@
 const fs = require('fs')
 
+const validate = require('./validate')
+
 let input;
 const state={
     gridLength: 0,
@@ -78,6 +80,9 @@ function dirtCheck(){
     })
     if (dirtAmount !== state.dirt.length)state.dirtRemoved += 1
 }
+
+
+const args = process.argv.slice(2)
 
 readFile()
 initialState()

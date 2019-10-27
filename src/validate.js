@@ -14,12 +14,9 @@ exports.argsCheck = (args) => {
 
 exports.typeCheck = (arg) => {
     let splitArg = arg.split('.')
-    if (splitArg.length === 1) {
-        return arg.concat(".txt")
-    }
-    else if (splitArg.length > 1){
-        if (splitArg[splitArg.length - 1] === ".txt"){
-            return arg
+    if (splitArg.length > 1){
+        if (splitArg[splitArg.length - 1] === "txt"){
+            return true
         }
         else{
             return false

@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-robot-vacuum",
+  "version": "1.0.0",
+  "description": "Robot Vacuum cleaner model",
+  "main": "./src/RoboVac.js",
+  "dependencies": {
+    "jest": "^24.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlzoPalzo/NodeJs-Robot-Vacuum.git"
+  },
+  "author": "Ali Madni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlzoPalzo/NodeJs-Robot-Vacuum/issues"
+  },
+  "homepage": "https://github.com/AlzoPalzo/NodeJs-Robot-Vacuum#readme"
+}

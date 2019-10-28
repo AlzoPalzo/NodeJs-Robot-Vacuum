@@ -1,5 +1,6 @@
 const fs = require('fs')
 
+
 argsCheck = (path) => {
     if (path.length !== 1)  return false
     else return true
@@ -30,11 +31,12 @@ exports.check = (pathArg) => {
         return {message: "Invalid number of arguments\nPlease enter just the filepath: \n", isValid: false}
     }
     const path = pathArg[0]
+    
     if (!pathCheck(path)) {
         return {message: `No file found at \"${path}\"\nPlease enter the filepath: \n`, isValid: false}
     }
     if (!typeCheck(path)) {
-        return {message: "Invalid file type, must be .txt \n ", isValid: false}
+        return {message: "Invalid file type, must be .txt \nPlease enter the filepath: \n ", isValid: false}
     }
     return {message: "Ok", isValid: true}
 }

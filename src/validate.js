@@ -1,6 +1,5 @@
 const fs = require('fs')
 
-
 argsCheck = (path) => {
     if (path.length !== 1)  return false
     else return true
@@ -21,9 +20,27 @@ pathCheck = (path) => {
     }
 }
 
-formatCheck = (path) => {
-    // let input = 
-    return true
+readTextFile = (path) => {
+    try {
+        const input = fs.readFileSync(path, "utf8").split('\n')
+        return input
+    } catch (error) {
+        console.log('ERROR: ', error.stack)
+    }
+}
+
+formatCheck = (input) => {
+    if (input.length < 3) {
+        return {
+            message: "Insufficient instructions in text file please use the format: \nx y\nx y\n...\nx y\n...\nNESW...\nPlease enter the filepath: \n",
+            isValid: false
+        }
+    }
+    boardXY = input[0].split(' ')
+    if (boardXY.length !== 2) {
+        "Board coordinates must be in the format: \nx y\nPlease enter just the filepath: \n"
+    }
+    return{isValid: true}
 }
 
 exports.check = (pathArg) => {
@@ -31,12 +48,16 @@ exports.check = (pathArg) => {
         return {message: "Invalid number of arguments\nPlease enter just the filepath: \n", isValid: false}
     }
     const path = pathArg[0]
-    
+
     if (!pathCheck(path)) {
         return {message: `No file found at \"${path}\"\nPlease enter the filepath: \n`, isValid: false}
     }
     if (!typeCheck(path)) {
         return {message: "Invalid file type, must be .txt \nPlease enter the filepath: \n ", isValid: false}
     }
-    return {message: "Ok", isValid: true}
+    const input = readTextFile(path)
+    if(!formatCheck(input).isValid){
+        return formatCheck(input)
+    }
+    return {input, message: "Ok", isValid: true}
 }

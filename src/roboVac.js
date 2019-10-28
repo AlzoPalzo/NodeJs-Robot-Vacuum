@@ -1,4 +1,10 @@
 const fs = require('fs')
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});  
 
 const validate = require('./validate')
 
@@ -12,15 +18,15 @@ const state={
     dirtRemoved: 0,
 }
 
-function readFile(){
+function readFile(path){
     try {
-        input = fs.readFileSync("./textFiles/example1.txt", "utf8").split('\n')
+        input = fs.readFileSync(path, "utf8").split('\n')
     } catch (error) {
         console.log('ERROR: ', error.stack)
     }
 }
 
-function initialState(){
+function initialiseState(){
     state.dirtRemoved = 0
     for (let i = 0; i < input.length - 1; i++) {
         
@@ -82,10 +88,19 @@ function dirtCheck(){
 }
 
 
-const args = process.argv.slice(2)
+const pathArg = process.argv.slice(2)
 
-readFile()
-initialState()
-moveVac()
+function start(path){
+    readFile(path)
+    initialiseState()
+    moveVac()
+    console.log(`${state.vacPosX} ${state.vacPosY} \n${state.dirtRemoved}`)
+}
 
-console.log(`${state.vacPosX} ${state.vacPosY} \n${state.dirtRemoved}`)
+if (validate.check(pathArg).isValid) {
+    start(pathArg[0])
+}
+else{
+    console.log(validate.check(pathArg).message)
+}
+rl.close()

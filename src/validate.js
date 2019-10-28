@@ -1,42 +1,40 @@
 const fs = require('fs')
 
-exports.argsCheck = (args) => {
-    if (args.length === 0){
-        return {message: "Please enter the name of the file you wish to use", valid: false}
-    }
-    else if (args.length > 1){
-        return {message: "Too many arguments, please enter the name of the file you wish to use", valid: false}
-    }
-    else{
-        return{message: "Ok", valid: true}
-    }
+argsCheck = (path) => {
+    if (path.length !== 1)  return false
+    else return true
 }
 
-exports.typeCheck = (arg) => {
-    let splitArg = arg.split('.')
-    if (splitArg.length > 1){
-        if (splitArg[splitArg.length - 1] === "txt"){
-            return true
-        }
-        else{
-            return false
-        }
-    }
-    else{return false}
+typeCheck = (path) => {
+    let splitArg = path.split('.')
+    if (splitArg.length > 1 && splitArg[splitArg.length - 1] === "txt") return true
+    else return false
 }
 
-exports.pathCheck = (path) => {
+pathCheck = (path) => {
     try {
-        if (fs.existsSync(path)){
-            return true
-        }
+        if (fs.existsSync(path)) return true
         else return false
     } catch (err) {
         console.error(err)
     }
 }
 
-exports.formatCheck = () => {
-    console.log('4')
+formatCheck = (path) => {
+    // let input = 
+    return true
 }
 
+exports.check = (pathArg) => {
+    if (!argsCheck(pathArg)) {
+        return {message: "Invalid number of arguments\nPlease enter just the filepath: \n", isValid: false}
+    }
+    const path = pathArg[0]
+    if (!pathCheck(path)) {
+        return {message: `No file found at \"${path}\"\nPlease enter the filepath: \n`, isValid: false}
+    }
+    if (!typeCheck(path)) {
+        return {message: "Invalid file type, must be .txt \n ", isValid: false}
+    }
+    return {message: "Ok", isValid: true}
+}

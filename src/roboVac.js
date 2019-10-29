@@ -1,6 +1,8 @@
 const fs = require('fs')
-
+const readline = require('readline');
 const validate = require('./validate')
+
+const pathArg = process.argv.slice(2)
 
 let input;
 const state={
@@ -12,15 +14,15 @@ const state={
     dirtRemoved: 0,
 }
 
-function readFile(){
+readFile = (path) => {
     try {
-        input = fs.readFileSync("./textFiles/example1.txt", "utf8").split('\n')
+        input = fs.readFileSync(path, "utf8").split('\n')
     } catch (error) {
         console.log('ERROR: ', error.stack)
     }
 }
 
-function initialState(){
+initialiseState = () => {
     state.dirtRemoved = 0
     for (let i = 0; i < input.length - 1; i++) {
         
@@ -42,7 +44,7 @@ function initialState(){
     }
 }
 
-function moveVac() {
+moveVac = () => {
     const directions = input[input.length - 1].split('')
     directions.forEach(direction => {
         switch (direction.toUpperCase()) {
@@ -72,8 +74,7 @@ function moveVac() {
         }
     });
 }
-
-function dirtCheck(){
+dirtCheck = () => {
     const dirtAmount = state.dirt.length
     state.dirt = state.dirt.filter(dirt => { 
         return dirt[0] !== state.vacPosX || dirt[1] !== state.vacPosY
@@ -82,10 +83,36 @@ function dirtCheck(){
 }
 
 
-const args = process.argv.slice(2)
 
-readFile()
-initialState()
-moveVac()
+start = (path) => {
+    readFile(path)
+    initialiseState()
+    moveVac()
+    console.log(`${state.vacPosX} ${state.vacPosY} \n${state.dirtRemoved}`)
+}
 
-console.log(`${state.vacPosX} ${state.vacPosY} \n${state.dirtRemoved}`)
+let checkedPathArg = validate.check(pathArg)
+
+if (checkedPathArg.isValid) {
+    start(pathArg[0])
+}
+else{
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });  
+
+    rl.setPrompt(checkedPathArg.message)
+    rl.prompt()
+    rl.on('line', arg =>{
+        checkedPathArg = validate.check(arg.split(' '))
+        if (checkedPathArg.isValid) {
+            start(arg)
+            rl.close()
+        }
+        rl.setPrompt(checkedPathArg.message)
+        rl.prompt()
+    }).on('close', () => {
+        process.exit(0)
+    })
+}

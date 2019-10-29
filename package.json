@@ -2,13 +2,14 @@
   "name": "nodejs-robot-vacuum",
   "version": "1.0.0",
   "description": "Robot Vacuum cleaner model",
-  "main": "./src/RoboVac.js",
+  "main": "./src/roboVac.js",
   "dependencies": {
     "jest": "^24.9.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node ./src/roboVac.js"
   },
   "repository": {
     "type": "git",

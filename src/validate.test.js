@@ -2,22 +2,31 @@ const validate = require('./validate')
 
 test('expects 2 process arguments to be too many', () =>
 {
-    expect(validate.argsCheck(['arg1', 'arg2']).valid).toBe(false)
+    expect(validate.check(['arg1', 'arg2']).message).toBe("Invalid number of arguments\nPlease enter just the filepath: \n")
 })
 
-test('expects 1 process arguments to be correct', () =>
+test('requires at least one argument', () =>
 {
-    expect(validate.argsCheck(['arg1']).valid).toBe(true)
+    expect(validate.check([]).message).toBe("Invalid number of arguments\nPlease enter just the filepath: \n")
 })
 
-test('expects valid file type to return true', () => {
-    expect(validate.typeCheck("./src/example1.txt")).toBe(true)
+test('expects .txt file', () =>
+{
+    expect(validate.check(['./textFiles/invalidFormat.csv']).message).toBe("Invalid file type, must be .txt \nPlease enter the filepath: \n ")
 })
 
-test('expects invalid file type to return false', () => {
-    expect(validate.typeCheck("invalidFileType.csv")).toBe(false)
+test('expects a valid file path', () =>
+{
+    let path = './textFiles/doesntExist.txt'
+    expect(validate.check([path]).message).toBe(`No file found at \"${path}\"\nPlease enter the filepath: \n`)
 })
 
-test('expects valid path to return true', () => {
-    expect(validate.pathCheck("./textFiles/example1.txt")).toBe(true)
+test('invalid coordinates are recognised', () =>
+{
+    expect(validate.check(['./textFiles/invalid2.txt']).message).toBe("One or more coordinates not in \nx y\nformat\nPlease enter the filepath: \n")
+})
+
+test('recognises out of bounds coordinates', () =>
+{
+    expect(validate.check(['./textFiles/outOfBounds1.txt']).message).toBe( "One or more coordinates out of bounds\nPlease enter the filepath: \n")
 })

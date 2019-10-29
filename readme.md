@@ -1,7 +1,7 @@
 ## Robot Vacuum
 
 ### What is it?
-Robot vacuum lets you create an imaginary robot in a room with dirt. You can give the vacuum movement instructions and the program will tell
+Robot vacuum lets you create an imaginary robot in a room with dirt from a text file. You can give the vacuum movement instructions and the program will tell
 you the final position of the vacuum as well as how much dirt it cleaned up.
 
 ### Instructions

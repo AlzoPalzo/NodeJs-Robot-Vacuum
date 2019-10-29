@@ -36,11 +36,52 @@ formatCheck = (input) => {
             isValid: false
         }
     }
-    boardXY = input[0].split(' ')
-    if (boardXY.length !== 2) {
-        "Board coordinates must be in the format: \nx y\nPlease enter just the filepath: \n"
+    boardXY = input[0]
+    if (!validCoords(boardXY) || parseInt(boardXY.split(' ')[0]) === 0 || parseInt(boardXY.split(' ')[1]) === 0){
+        return {
+            message: "Board Coords must be in the format:\nx y\nand greater than 0\nPlease enter the filepath: \n",
+            isValid: false
+        }
     }
+    let boardLength = parseInt(boardXY[0]);
+    let boardHeight = parseInt(boardXY[1]);
+
+    otherCoords = input.slice(1, input.length - 1)
+    for (let i = 0; i < otherCoords.length; i++) {
+        if (!validCoords(otherCoords[i])) {
+            return {
+                message: "One or more coordinates not in \nx y\nformat\nPlease enter the filepath: \n",
+                isValid: false
+            }
+        }
+        const xy = otherCoords[i].split(' ')
+        if (parseInt(xy[0]) > boardLength || parseInt(xy[0] < 0) || parseInt(xy[1]) > boardHeight || parseInt(xy[1] < 0)) {
+            return {
+                message: "One or more coordinates out of bounds\nPlease enter the filepath: \n",
+                isValid: false
+            }
+        }
+
+
+    }
+
     return{isValid: true}
+}
+
+validCoords = (coords) => {
+    const xy = coords.split(' ')
+    if (xy.length !== 2) {
+        return false
+    }
+    const x = parseInt(xy[0])
+    const y = parseInt(xy[1])
+
+    if (x || x === 0) {
+        if (y || y === 0) {
+            return true
+        }
+    }
+    return false
 }
 
 exports.check = (pathArg) => {
@@ -56,8 +97,9 @@ exports.check = (pathArg) => {
         return {message: "Invalid file type, must be .txt \nPlease enter the filepath: \n ", isValid: false}
     }
     const input = readTextFile(path)
-    if(!formatCheck(input).isValid){
-        return formatCheck(input)
+    const checkedFormat = formatCheck(input)
+    if(!checkedFormat.isValid){
+        return checkedFormat
     }
     return {input, message: "Ok", isValid: true}
 }

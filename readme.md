@@ -5,6 +5,7 @@ Robot vacuum lets you create an imaginary robot vacuum in a room with dirt from 
 
 ### Instructions
 You will need npm installed.
+
 **To use the program**:
 - Clone this repository
 - Run `npm install`
